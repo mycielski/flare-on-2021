@@ -1,5 +1,6 @@
 use std::{convert::TryFrom, process::exit};
 
+/// In this main function the calculated decryption key is printed out to the standard output.
 fn main() {
     let png_header_bytes = png_headers();
     let result = find_key(png_header_bytes.0, png_header_bytes.1);
@@ -10,6 +11,7 @@ fn main() {
     exit(0);
 }
 
+/// This function takes two equisized vectors containing bytes of ciphertext and expected plaintext, and tries to find the decryption key.
 fn find_key(cryptobytes: Vec<u8>, plainbytes: Vec<u8>) -> Vec<u8> {
     assert_eq!(cryptobytes.len(), plainbytes.len());
 
@@ -39,6 +41,7 @@ fn find_key(cryptobytes: Vec<u8>, plainbytes: Vec<u8>) -> Vec<u8> {
     return decryptedbytes;
 }
 
+/// This function returns a touple containing vectors with the first eight bytes of the encrypted png file and the first eight bytes of a regular png file.
 fn png_headers() -> (Vec<u8>, Vec<u8>) {
     let plainbytes = vec![0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
     let cryptobytes = vec![0xc7, 0xc7, 0x25, 0x1d, 0x63, 0x0d, 0xf3, 0x56];
